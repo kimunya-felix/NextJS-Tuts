@@ -1,5 +1,5 @@
-const authenticate: any (username: string, password: string) => {
-    if (username != process.env.LOGIN_USERNAME && password != process.env.LOGIN_PASSWORD) {
+const authenticate = (email: string, password: string) => {
+    if (email != process.env.LOGIN_USERNAME && password != process.env.LOGIN_PASSWORD) {
         return null;
     }
     const user = {
@@ -7,6 +7,7 @@ const authenticate: any (username: string, password: string) => {
         name: "Web Admin",
         email: "admin@example.com",
     };
+    console.log("you made it");
     return user;
 }
 

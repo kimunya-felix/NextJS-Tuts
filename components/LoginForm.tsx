@@ -4,16 +4,24 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from './Button'
 import loginSchema from '@lib/LoginSchema'
-import { IFormInput } from '@util/SignUpInput'
+import { IFormInput } from '@app/types/SignUpInput'
+import { signIn } from 'next-auth/react'
 
 const LoginForm = () => {
 
     const { register, handleSubmit, formState: { errors}, reset } = useForm<IFormInput>({resolver: yupResolver(loginSchema)})
-    const onSubmitLogin: SubmitHandler<IFormInput> = (data) => {console.log(data); reset();}
+    const onSubmitLogin: SubmitHandler<IFormInput> = async (data) => {
+      await signIn("credentials", {
+        email: data.email,
+        password: data.password,
+        callbackUrl: '/'
+      })
+      reset();
+    }
 
   return (
     <div className='flex flex-center flex-col w-4/5 border border-slate-300 p-2'>
-    <h2 className='pb-4'>Login Form</h2>
+      <h2 className='pb-4'>Login Form</h2>
         <form className="space-y-4 w-full" onSubmit={handleSubmit(onSubmitLogin)}>
             <label htmlFor="email" className="block text-sm font-medium">
             Email:

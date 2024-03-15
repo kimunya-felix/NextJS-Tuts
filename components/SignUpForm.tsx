@@ -4,12 +4,22 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from './Button'
 import signUpSchema from '@lib/SignUpSchema'
-import { IFormInput } from '@util/SignUpInput'
+import { IFormInput } from '@app/types/SignUpInput'
 
 const SignUpForm = () => {
 
   const { register, handleSubmit, formState: { errors}, reset } = useForm<IFormInput>({resolver: yupResolver(signUpSchema)})
-  const onSubmit: SubmitHandler<IFormInput> = (data) => {console.log(data); reset()}
+  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+    try{
+      console.log(data); 
+      reset();
+    }catch ( err ) {
+      console.log("Sign up failed");
+      
+    }
+    
+
+  }
 
   return (
   <div className='flex flex-center flex-col w-4/5 border border-slate-300 p-2'>
